@@ -1,10 +1,13 @@
 module.exports = function(app) {
     app.get('/noticias', function(req, res) {
-        var mysql = require('mysql');
-        var connection = mysql.createConnection({ host: 'localhost', user: 'root', password: '', database: 'mean_noticias'});
+        var conn = app.config.dbConnection();
 
-        var results = connection.query('SELECT * FROM noticias', function (error, result) {
+        var noticia = app.app.models.noticia;
+
+        noticia.getNoticias(conn, function (error, result) {
             res.render("noticias/noticias", {noticias: result});
         });
+
+        
     });
 }
