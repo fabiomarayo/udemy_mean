@@ -26,9 +26,17 @@ app.use(bodyParser.urlencoded({extended: true}));
 /* configurar o middleware express-validator */
 app.use(expressValidator());
 
+/* express session */
+var expressSession = require('express-session');
+app.use(expressSession({
+	secret:'fodl',
+	resave: false,
+	saveUninitialized: false
+}));
 /* efetua o autoload das rotas, dos models e dos controllers para o objeto app */
 consign()
 	.include('app/routes')
+	.then('./config/dbConnection.js')
 	.then('app/models')
 	.then('app/controllers')
 	.into(app);
